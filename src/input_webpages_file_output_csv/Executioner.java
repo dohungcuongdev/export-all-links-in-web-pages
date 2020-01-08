@@ -24,11 +24,9 @@ public class Executioner {
 	public static void main(String[] args) {
 		
 		List<String> input = getInputFromCSV();
-        System.out.print(input);
 		String output = getLinksFromWebPageLinks(input);
-		System.out.print(output);
 		extractOutputToCSV(output);
-		System.out.print("Execution done");
+		System.out.print("done");
 
 	}
 
@@ -37,12 +35,9 @@ public class Executioner {
 		try (BufferedReader br = new BufferedReader(new FileReader(INPUT_DIR))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				System.out.println(line);
 				input.add(line);
 			}
-			System.out.println("read file CSV done!");
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			System.out.println("File not found, please check directory: " + INPUT_DIR);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -59,18 +54,13 @@ public class Executioner {
 			try {
 				Document doc = Jsoup.parse(new URL(webpageLink), 2000);
 				Elements resultLinks = doc.select("a");
-				System.out.println("number of links: " + resultLinks.size());
 				for (Element link : resultLinks) {
-					System.out.println();
 					String href = link.attr("href");
 					if (filterLinkCondition(href)) {
-						System.out.println("Title: " + link.text());
-						System.out.println("Url: " + href);
 						output.append(href);
 						output.append("\n");
 					}
 				}
-				System.out.println("-----------------");
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -81,16 +71,13 @@ public class Executioner {
 	}
 
 	private static boolean filterLinkCondition(String href) {
-		// return href.startsWith("http");
-		return true;
+		return href.startsWith("http");
 	}
 
 	private static void extractOutputToCSV(String output) {
 		try (PrintWriter writer = new PrintWriter(new File(OUTPUT_DIR))) {
 			writer.write(output);
-			System.out.println("extract file CSV done!");
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			System.out.println("File not found, please check directory: " + OUTPUT_DIR);
 		}
 	}
