@@ -56,16 +56,14 @@ public class Executioner {
 				Elements resultLinks = doc.select("a");
 				for (Element link : resultLinks) {
 					String href = link.attr("href");
-					if (filterLinkCondition(href)) {
+					if (href.startsWith("http")) {
 						output.append(href);
+					} else if(href.startsWith("//")) {
+						output.append("http:" + href);
+					} else if(href.startsWith("/")) {
+						output.append(webpageLink + href);
 					} else {
-						if(href.startsWith("//")) {
-							output.append("http:" + href);
-						} else if(href.startsWith("/")) {
-							output.append(webpageLink + href);
-						} else {
-							output.append(webpageLink + "/" + href);
-						}
+						output.append(webpageLink + "/" + href);
 					}
 					output.append("\n");
 				}
@@ -76,10 +74,6 @@ public class Executioner {
 			}
 		}
 		return output.toString();
-	}
-
-	private static boolean filterLinkCondition(String href) {
-		return href.startsWith("http");
 	}
 
 	private static void extractOutputToCSV(String output) {
