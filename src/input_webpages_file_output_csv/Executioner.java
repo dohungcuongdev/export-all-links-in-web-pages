@@ -59,10 +59,12 @@ public class Executioner {
 					if (filterLinkCondition(href)) {
 						output.append(href);
 					} else {
-						if(href.startsWith("/")) {
-							output.append(webpageLink+href);
+						if(href.startsWith("//")) {
+							output.append("http:" + href);
+						} else if(href.startsWith("/")) {
+							output.append(webpageLink + href);
 						} else {
-							output.append(webpageLink+"/"+href);
+							output.append(webpageLink + "/" + href);
 						}
 					}
 					output.append("\n");
