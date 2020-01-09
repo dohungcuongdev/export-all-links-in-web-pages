@@ -58,8 +58,14 @@ public class Executioner {
 					String href = link.attr("href");
 					if (filterLinkCondition(href)) {
 						output.append(href);
-						output.append("\n");
+					} else {
+						if(href.startsWith("/")) {
+							output.append(webpageLink+href);
+						} else {
+							output.append(webpageLink+"/"+href);
+						}
 					}
+					output.append("\n");
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
